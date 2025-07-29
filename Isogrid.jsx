@@ -97,14 +97,23 @@ function drawIsogrid(opts) {
 
     var originalShape = sel[0];
     var bounds = originalShape.geometricBounds;
+
     var leg = opts.leg;
     var triHeight = Math.sqrt(3) / 2 * leg;
     var hatchGroup = doc.activeLayer.groupItems.add();
+
+    // If no x/Y offset are specified, use center of selection as center
+    if (opts.offsetX === 0) opts.offsetX = (bounds[2] - bounds[0]) % opts.leg / 2;
+    if (opts.offsetY === 0) opts.offsetY = (bounds[1] - bounds[3]) % triHeight / 2;
+
+    opts.offsetY -= triHeight;  // Shift hatching 1 row to the bottom because it left some space always
 
     var xMin = bounds[0] + opts.offsetX;
     var yMax = bounds[1] + opts.offsetY;
     var xMax = bounds[2] + opts.offsetX;
     var yMin = bounds[3] + opts.offsetY;
+
+    // alert("xMin"+xMin+"yMax"+yMax+"xMax"+xMax+"yMin"+yMin);
 
     for (var y = yMin; y <= yMax + triHeight * 6; y += triHeight) {
         var isEven = Math.round((y - yMin) / triHeight) % 2 === 0;
