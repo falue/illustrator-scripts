@@ -184,25 +184,17 @@ function drawIsogrid(opts) {
                 var xOff = isEven ? 0 : leg / 2;
                 var x0 = x + xOff;
                 var y0 = y;
-                var pts = [
-                    [x0, y0],
-                    [x0 + leg / 2, y0 + triHeight],
-                    [x0 - leg / 2, y0 + triHeight]
-                ];
-                for (var i = 0; i < pts.length; i++) {
-                    var pt = pts[i];
-                    if (pt[0] >= bounds[0] && pt[0] <= bounds[2] && pt[1] <= bounds[1] && pt[1] >= bounds[3]) {
-                        var circ = doc.pathItems.ellipse(
-                            pt[1] + opts.circleSize / 2,
-                            pt[0] - opts.circleSize / 2,
-                            opts.circleSize,
-                            opts.circleSize
-                        );
-                        circ.stroked = true;
-                        circ.strokeWidth = 1;
-                        circ.filled = false;
-                        circ.move(circleGroup, ElementPlacement.PLACEATEND);
-                    }
+                if (x0 >= bounds[0] && x0 <= bounds[2] && y0 <= bounds[1] && y0 >= bounds[3]) {
+                    var circ = doc.pathItems.ellipse(
+                        y0 + opts.circleSize / 2,
+                        x0 - opts.circleSize / 2,
+                        opts.circleSize,
+                        opts.circleSize
+                    );
+                    circ.stroked = true;
+                    circ.strokeWidth = 1;
+                    circ.filled = false;
+                    circ.move(circleGroup, ElementPlacement.PLACEATEND);
                 }
             }
         }
@@ -212,7 +204,6 @@ function drawIsogrid(opts) {
         triangleGroup.move(masterGroup, ElementPlacement.PLACEATEND);
         circleGroup.move(masterGroup, ElementPlacement.PLACEATEND);
     }
-
 
     // alert("Isogrid complete.");
 }
